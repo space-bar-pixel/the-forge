@@ -2,13 +2,18 @@
 print("PIZZAHUB LOADING...")
 
 local function loadModule(path)
+    local url = "https://raw.githubusercontent.com/space-bar-pixel/the-forge/main/" .. path
+    print("Loading: " .. url)
     local success, result = pcall(function()
-        return loadstring(game:HttpGet("https://raw.githubusercontent.com/space-bar-pixel/the-forge/main/" .. path))()
+        local code = game:HttpGet(url)
+        print("Fetched code for " .. path .. ", length: " .. #code)
+        return loadstring(code)()
     end)
     if success then
+        print("Successfully loaded: " .. path)
         return result
     else
-        warn("Failed to load " .. path .. ": " .. result)
+        warn("Failed to load " .. path .. ": " .. tostring(result))
         return nil
     end
 end
