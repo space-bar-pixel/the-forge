@@ -162,6 +162,8 @@ local Window = WindUI:CreateWindow({
 	},
 })
 
+Window:SetToggleKey(Enum.KeyCode.H)
+
 local Tab = Window:Tab({
 	Title = "Main",
 	Icon = "bird",
