@@ -1,6 +1,6 @@
-local Settings = require(script.Parent.Parent.core.settings)
-local RocksTable = require(script.Parent.Parent.core.rocks)
-local AutoMine = require(script.Parent.Parent.features.automine)
+local Settings = loadstring(game:HttpGet("https://raw.githubusercontent.com/space-bar-pixel/the-forge/main/src/core/settings.luau"))()
+local RocksTable = loadstring(game:HttpGet("https://raw.githubusercontent.com/space-bar-pixel/the-forge/main/src/core/rocks.luau"))()
+local AutoMine = loadstring(game:HttpGet("https://raw.githubusercontent.com/space-bar-pixel/the-forge/main/src/features/automine.luau"))()
 
 local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
 

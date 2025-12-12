@@ -1,4 +1,4 @@
-local S = require(script.Parent.services)
+local S = loadstring(game:HttpGet("https://raw.githubusercontent.com/space-bar-pixel/the-forge/main/src/core/services.luau"))()
 
 local Taiteen = {}
 
