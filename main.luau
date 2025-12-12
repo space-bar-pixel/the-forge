@@ -1,6 +1,10 @@
 --# selene: allow(undefined_global)
 print("PIZZAHUB LOADING...")
 
+-- ===============================
+-- CONFIGURATION MODULES
+-- ===============================
+
 -- Config: Settings
 getgenv().AutoMine = false
 getgenv().SelectRocks = ""
@@ -10,12 +14,16 @@ getgenv().TweenSpeed = 50
 local RocksTable = {}
 
 local function InitRocks()
-    for name in pairs(require(game:GetService("ReplicatedStorage").Shared.Data.Rock)) do
+    for name in pairs(game:GetService("ReplicatedStorage").Shared.Data.Ore) do
         table.insert(RocksTable, name)
     end
 end
 
 InitRocks()
+
+-- ===============================
+-- LIBRARY MODULES
+-- ===============================
 
 -- Lib: Services
 local Services = {
@@ -76,6 +84,10 @@ function Tool.Pickaxe()
 		:InvokeServer("Pickaxe")
 end
 
+-- ===============================
+-- FEATURE MODULES
+-- ===============================
+
 -- Features: AutoMine
 local AutoMine = {}
 
@@ -126,6 +138,10 @@ function AutoMine.Start()
 		end
 	end)
 end
+
+-- ===============================
+-- UI MODULES
+-- ===============================
 
 -- UI: Menu
 local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
