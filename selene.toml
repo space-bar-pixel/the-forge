@@ -1,1 +1,11 @@
-std = "roblox"
+std = "lua51"
+
+[rules]
+deprecated = "allow"
+
+[globals]
+getgenv = true
+game = true
+UDim = true
+Color3 = true
+ColorSequence = true

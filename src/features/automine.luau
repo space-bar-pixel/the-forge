@@ -1,10 +1,10 @@
-local S = loadstring(game:HttpGet("https://raw.githubusercontent.com/space-bar-pixel/the-forge/main/src/lib/services.luau"))()
-local Movement = loadstring(game:HttpGet("https://raw.githubusercontent.com/space-bar-pixel/the-forge/main/src/lib/movement.luau"))()
-local Tool = loadstring(game:HttpGet("https://raw.githubusercontent.com/space-bar-pixel/the-forge/main/src/lib/tool.luau"))()
-local Noclip = loadstring(game:HttpGet("https://raw.githubusercontent.com/space-bar-pixel/the-forge/main/src/lib/noclip.luau"))()
-local Taiteen = loadstring(game:HttpGet("https://raw.githubusercontent.com/space-bar-pixel/the-forge/main/src/lib/taiteen.luau"))()
+local S = require(script.Parent.Parent.lib.services)
+local Movement = require(script.Parent.Parent.lib.movement)
+local Tool = require(script.Parent.Parent.lib.tool)
+local Noclip = require(script.Parent.Parent.lib.noclip)
+local Taiteen = require(script.Parent.Parent.lib.taiteen)
 local Settings = getgenv()
-local RocksTable = loadstring(game:HttpGet("https://raw.githubusercontent.com/space-bar-pixel/the-forge/main/src/config/rocks.luau"))()
+local RocksTable = require(script.Parent.Parent.config.rocks)
 
 local AutoMine = {}
 

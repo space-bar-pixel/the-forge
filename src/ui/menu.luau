@@ -1,15 +1,17 @@
+--# selene: allow(undefined_global)
 local Settings = getgenv()
+
 local RocksTable = loadstring(game:HttpGet("https://raw.githubusercontent.com/space-bar-pixel/the-forge/main/src/config/rocks.luau"))()
 local AutoMine = loadstring(game:HttpGet("https://raw.githubusercontent.com/space-bar-pixel/the-forge/main/src/features/automine.luau"))()
 
 local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
 
 local Window = WindUI:CreateWindow({
-	Title = "NOOBHUB",
+	Title = "PIZZAHUB THE FORGE",
 	Icon = "door-open",
 	Author = "TEST",
 	OpenButton = {
-		Title = "Open Example UI",
+		Title = "Open Ai",
 		Icon = "monitor",
 		CornerRadius = UDim.new(0, 16),
 		StrokeThickness = 2,
