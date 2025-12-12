@@ -1,4 +1,6 @@
-local S = loadstring(game:HttpGet("https://raw.githubusercontent.com/space-bar-pixel/the-forge/main/src/core/services.luau"))()
+local S = loadstring(
+	game:HttpGet("https://raw.githubusercontent.com/space-bar-pixel/the-forge/main/src/lib/services.luau")
+)()
 
 local Noclip = {}
 
