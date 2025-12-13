@@ -14,8 +14,12 @@ getgenv().TweenSpeed = 50
 local RocksTable = {}
 
 local function InitRocks()
-    for name in pairs(game:GetService("ReplicatedStorage").Shared.Data.Ore) do
-        table.insert(RocksTable, name)
+    for _, island in pairs(workspace.Rocks:GetChildren()) do
+        for _, rock in pairs(island:GetChildren()) do
+            for _, v in pairs(rock:GetChildren()) do
+                table.insert(RocksTable, v)
+            end
+        end
     end
 end
 
@@ -40,9 +44,15 @@ Services.RootPart = Services.Character.HumanoidRootPart
 -- Lib: Movement
 local Movement = {}
 
-function Movement.Tween(Target, Speed)
-	local Dis = (Target.Position - Services.RootPart.Position).Magnitude
-	Services.TweenService:Create(Services.RootPart, TweenInfo.new(Dis / Speed, Enum.EasingStyle.Linear), { CFrame = Target }):Play()
+function Movement.Tween(TargetCF, Speed)
+    local pos = TargetCF.Position
+    local dis = (pos - Services.RootPart.Position).Magnitude
+    local tween = Services.TweenService:Create(
+        Services.RootPart,
+        TweenInfo.new(dis / Speed, Enum.EasingStyle.Linear),
+        { CFrame = TargetCF }
+    )
+    tween:Play()
 end
 
 -- Lib: Noclip
@@ -144,7 +154,19 @@ end
 -- ===============================
 
 -- UI: Menu
-local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
+local WindUI
+
+do
+    local ok, result = pcall(function()
+        return require("./src/Init")
+    end)
+    
+    if ok then
+        WindUI = result
+    else 
+        WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
+    end
+end
 
 local Window = WindUI:CreateWindow({
 	Title = "PIZZAHUB THE FORGE",
