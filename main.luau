@@ -28,7 +28,7 @@ do
     if ok then
         WindUI = result
     else 
-        WindUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/space-bar-pixel/the-forge/main/mainUi.luau"))()
+        WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
     end
 end
 
@@ -565,7 +565,12 @@ UpdateProgress(65, "Loaded Features")
 -- Window, Tabs, and Controls
 --------------------------------------------------------------------------------
 
-UpdateProgress(75, "Loading UI...")
+UpdateProgress(100, "Ready!")
+
+-- Wait for loading screen to fade out before creating menu
+LoadingScreen:WaitForComplete()
+
+print("PIZZAHUB CREATING MENU...")
 
 local UI = {}
 
@@ -588,8 +593,6 @@ UI.Window = WindUI:CreateWindow({
 
 UI.Window:SetToggleKey(Enum.KeyCode.H)
 
-UpdateProgress(80, "Creating Tabs...")
-
 --------------------------------------------------------------------------------
 -- [6.1] TABS
 -- Add new tabs here
@@ -609,8 +612,6 @@ UI.Tabs.Teleport = UI.Window:Tab({
     Title = "Teleport",
     Icon = "map-pin",
 })
-
-UpdateProgress(85, "Creating Controls...")
 
 --------------------------------------------------------------------------------
 -- [6.2] CONTROLS
@@ -690,8 +691,6 @@ UI.Controls.AutoDodgeToggle = UI.Tabs.Main:Toggle({
     end,
 })
 
-UpdateProgress(92, "Creating Teleport Buttons...")
-
 --------------------------------------------------------------------------------
 -- [6.3] TELEPORT LOCATIONS
 -- Add new teleport locations here easily
@@ -717,8 +716,6 @@ for _, loc in ipairs(TeleportLocations) do
         end,
     })
 end
-
-UpdateProgress(100, "Loaded")
 
 --------------------------------------------------------------------------------
 -- DONE

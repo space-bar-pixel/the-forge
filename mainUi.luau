@@ -12712,6 +12712,8 @@ function aa.LoadingScreen:Create()
     LoadingUI.Status = Status
     LoadingUI.TweenService = TweenService
     LoadingUI.CurrentProgress = 0
+    LoadingUI._completed = false
+    LoadingUI._completedEvent = Instance.new("BindableEvent")
 
     -- Update Progress Function
     function LoadingUI:Update(percent, statusText)
@@ -12737,7 +12739,7 @@ function aa.LoadingScreen:Create()
         self.CurrentProgress = percent
         
         -- Auto close when complete
-        if percent >= 100 then
+        if percent >= 100 and not self._completed then
             task.delay(0.8, function()
                 local fadeOut = self.TweenService:Create(
                     self.Container,
@@ -12759,8 +12761,18 @@ function aa.LoadingScreen:Create()
                 fadeOut:Play()
                 fadeOut.Completed:Wait()
                 self.ScreenGui:Destroy()
+                self._completed = true
+                self._completedEvent:Fire()
             end)
         end
+    end
+
+    -- Wait for loading to complete (yields until fade out is done)
+    function LoadingUI:WaitForComplete()
+        if self._completed then
+            return
+        end
+        self._completedEvent.Event:Wait()
     end
 
     return LoadingUI
