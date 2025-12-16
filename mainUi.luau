@@ -12515,4 +12515,255 @@ end
 return aE
 end
 
+-- ===============================
+-- LOADING PROGRESS BAR MODULE
+-- ===============================
+
+aa.LoadingScreen = {}
+
+function aa.LoadingScreen:Create()
+    local TweenService = game:GetService("TweenService")
+    local Players = game:GetService("Players")
+    local LocalPlayer = Players.LocalPlayer
+    local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+
+    local LoadingUI = {}
+
+    -- Theme Colors (matching WindUI modern theme)
+    local Theme = {
+        Primary = Color3.fromHex("#0091FF"),
+        PrimaryDark = Color3.fromHex("#0070CC"),
+        Background = Color3.fromHex("#1A1A1A"),
+        BackgroundSecondary = Color3.fromHex("#252525"),
+        Text = Color3.fromHex("#FFFFFF"),
+        TextSecondary = Color3.fromHex("#A0A0A0"),
+        Accent = Color3.fromHex("#FF0F7B"),
+        AccentSecondary = Color3.fromHex("#F89B29"),
+    }
+
+    -- Create ScreenGui
+    local ScreenGui = Instance.new("ScreenGui")
+    ScreenGui.Name = "PizzaHubLoader"
+    ScreenGui.ResetOnSpawn = false
+    ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    ScreenGui.IgnoreGuiInset = true
+    ScreenGui.Parent = PlayerGui
+
+    -- Main Container (Full Screen Overlay)
+    local Container = Instance.new("Frame")
+    Container.Name = "Container"
+    Container.Size = UDim2.new(1, 0, 1, 0)
+    Container.BackgroundColor3 = Theme.Background
+    Container.BorderSizePixel = 0
+    Container.Parent = ScreenGui
+
+    -- Background Gradient
+    local BGGradient = Instance.new("UIGradient")
+    BGGradient.Color = ColorSequence.new({
+        ColorSequenceKeypoint.new(0, Color3.fromHex("#0D0D0D")),
+        ColorSequenceKeypoint.new(0.5, Color3.fromHex("#1A1A1A")),
+        ColorSequenceKeypoint.new(1, Color3.fromHex("#0D0D0D"))
+    })
+    BGGradient.Rotation = 45
+    BGGradient.Parent = Container
+
+    -- Center Frame
+    local CenterFrame = Instance.new("Frame")
+    CenterFrame.Name = "CenterFrame"
+    CenterFrame.Size = UDim2.new(0, 350, 0, 180)
+    CenterFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
+    CenterFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+    CenterFrame.BackgroundColor3 = Theme.BackgroundSecondary
+    CenterFrame.BorderSizePixel = 0
+    CenterFrame.Parent = Container
+
+    local CenterCorner = Instance.new("UICorner")
+    CenterCorner.CornerRadius = UDim.new(0, 16)
+    CenterCorner.Parent = CenterFrame
+
+    -- Glow Effect
+    local Glow = Instance.new("ImageLabel")
+    Glow.Name = "Glow"
+    Glow.Size = UDim2.new(1, 60, 1, 60)
+    Glow.Position = UDim2.new(0.5, 0, 0.5, 0)
+    Glow.AnchorPoint = Vector2.new(0.5, 0.5)
+    Glow.BackgroundTransparency = 1
+    Glow.Image = "rbxassetid://5028857084"
+    Glow.ImageColor3 = Theme.Primary
+    Glow.ImageTransparency = 0.85
+    Glow.ZIndex = 0
+    Glow.Parent = CenterFrame
+
+    -- Title Label
+    local Title = Instance.new("TextLabel")
+    Title.Name = "Title"
+    Title.Size = UDim2.new(1, -40, 0, 35)
+    Title.Position = UDim2.new(0, 20, 0, 20)
+    Title.BackgroundTransparency = 1
+    Title.Text = "PIZZAHUB"
+    Title.TextColor3 = Theme.Text
+    Title.TextSize = 28
+    Title.Font = Enum.Font.GothamBold
+    Title.TextXAlignment = Enum.TextXAlignment.Left
+    Title.Parent = CenterFrame
+
+    -- Title Gradient
+    local TitleGradient = Instance.new("UIGradient")
+    TitleGradient.Color = ColorSequence.new(Theme.Accent, Theme.AccentSecondary)
+    TitleGradient.Parent = Title
+
+    -- Status Label
+    local Status = Instance.new("TextLabel")
+    Status.Name = "Status"
+    Status.Size = UDim2.new(1, -40, 0, 20)
+    Status.Position = UDim2.new(0, 20, 0, 55)
+    Status.BackgroundTransparency = 1
+    Status.Text = "Initializing..."
+    Status.TextColor3 = Theme.TextSecondary
+    Status.TextSize = 14
+    Status.Font = Enum.Font.Gotham
+    Status.TextXAlignment = Enum.TextXAlignment.Left
+    Status.Parent = CenterFrame
+
+    -- Progress Bar Background
+    local ProgressBG = Instance.new("Frame")
+    ProgressBG.Name = "ProgressBG"
+    ProgressBG.Size = UDim2.new(1, -40, 0, 8)
+    ProgressBG.Position = UDim2.new(0, 20, 0, 95)
+    ProgressBG.BackgroundColor3 = Color3.fromHex("#333333")
+    ProgressBG.BorderSizePixel = 0
+    ProgressBG.Parent = CenterFrame
+
+    local ProgressBGCorner = Instance.new("UICorner")
+    ProgressBGCorner.CornerRadius = UDim.new(1, 0)
+    ProgressBGCorner.Parent = ProgressBG
+
+    -- Progress Bar Fill
+    local ProgressFill = Instance.new("Frame")
+    ProgressFill.Name = "ProgressFill"
+    ProgressFill.Size = UDim2.new(0, 0, 1, 0)
+    ProgressFill.BackgroundColor3 = Theme.Primary
+    ProgressFill.BorderSizePixel = 0
+    ProgressFill.Parent = ProgressBG
+
+    local ProgressFillCorner = Instance.new("UICorner")
+    ProgressFillCorner.CornerRadius = UDim.new(1, 0)
+    ProgressFillCorner.Parent = ProgressFill
+
+    -- Progress Gradient (modern gradient effect)
+    local ProgressGradient = Instance.new("UIGradient")
+    ProgressGradient.Color = ColorSequence.new(Theme.Accent, Theme.AccentSecondary)
+    ProgressGradient.Parent = ProgressFill
+
+    -- Percentage Label
+    local Percentage = Instance.new("TextLabel")
+    Percentage.Name = "Percentage"
+    Percentage.Size = UDim2.new(1, -40, 0, 20)
+    Percentage.Position = UDim2.new(0, 20, 0, 115)
+    Percentage.BackgroundTransparency = 1
+    Percentage.Text = "0%"
+    Percentage.TextColor3 = Theme.Text
+    Percentage.TextSize = 16
+    Percentage.Font = Enum.Font.GothamBold
+    Percentage.TextXAlignment = Enum.TextXAlignment.Right
+    Percentage.Parent = CenterFrame
+
+    -- Shimmer Effect (animated highlight)
+    local Shimmer = Instance.new("Frame")
+    Shimmer.Name = "Shimmer"
+    Shimmer.Size = UDim2.new(0.3, 0, 1, 0)
+    Shimmer.Position = UDim2.new(-0.3, 0, 0, 0)
+    Shimmer.BackgroundTransparency = 0.7
+    Shimmer.BackgroundColor3 = Color3.new(1, 1, 1)
+    Shimmer.BorderSizePixel = 0
+    Shimmer.ZIndex = 2
+    Shimmer.Parent = ProgressFill
+
+    local ShimmerCorner = Instance.new("UICorner")
+    ShimmerCorner.CornerRadius = UDim.new(1, 0)
+    ShimmerCorner.Parent = Shimmer
+
+    local ShimmerGradient = Instance.new("UIGradient")
+    ShimmerGradient.Transparency = NumberSequence.new({
+        NumberSequenceKeypoint.new(0, 1),
+        NumberSequenceKeypoint.new(0.5, 0.5),
+        NumberSequenceKeypoint.new(1, 1)
+    })
+    ShimmerGradient.Parent = Shimmer
+
+    -- Shimmer Animation
+    task.spawn(function()
+        while ScreenGui.Parent do
+            local shimmerTween = TweenService:Create(Shimmer, TweenInfo.new(1, Enum.EasingStyle.Linear), {
+                Position = UDim2.new(1, 0, 0, 0)
+            })
+            shimmerTween:Play()
+            shimmerTween.Completed:Wait()
+            Shimmer.Position = UDim2.new(-0.3, 0, 0, 0)
+            task.wait(0.5)
+        end
+    end)
+
+    -- Store references
+    LoadingUI.ScreenGui = ScreenGui
+    LoadingUI.Container = Container
+    LoadingUI.ProgressFill = ProgressFill
+    LoadingUI.Percentage = Percentage
+    LoadingUI.Status = Status
+    LoadingUI.TweenService = TweenService
+    LoadingUI.CurrentProgress = 0
+
+    -- Update Progress Function
+    function LoadingUI:Update(percent, statusText)
+        percent = math.clamp(percent, 0, 100)
+        
+        -- Animate progress bar
+        local targetSize = UDim2.new(percent / 100, 0, 1, 0)
+        local tween = self.TweenService:Create(
+            self.ProgressFill,
+            TweenInfo.new(0.4, Enum.EasingStyle.Quart, Enum.EasingDirection.Out),
+            { Size = targetSize }
+        )
+        tween:Play()
+        
+        -- Update percentage text
+        self.Percentage.Text = tostring(math.floor(percent)) .. "%"
+        
+        -- Update status text
+        if statusText then
+            self.Status.Text = statusText
+        end
+        
+        self.CurrentProgress = percent
+        
+        -- Auto close when complete
+        if percent >= 100 then
+            task.delay(0.8, function()
+                local fadeOut = self.TweenService:Create(
+                    self.Container,
+                    TweenInfo.new(0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.Out),
+                    { BackgroundTransparency = 1 }
+                )
+                
+                -- Fade all children
+                for _, child in pairs(self.ScreenGui:GetDescendants()) do
+                    if child:IsA("Frame") or child:IsA("TextLabel") or child:IsA("ImageLabel") then
+                        self.TweenService:Create(child, TweenInfo.new(0.5), {
+                            BackgroundTransparency = 1,
+                            TextTransparency = child:IsA("TextLabel") and 1 or nil,
+                            ImageTransparency = child:IsA("ImageLabel") and 1 or nil
+                        }):Play()
+                    end
+                end
+                
+                fadeOut:Play()
+                fadeOut.Completed:Wait()
+                self.ScreenGui:Destroy()
+            end)
+        end
+    end
+
+    return LoadingUI
+end
+
 return aa

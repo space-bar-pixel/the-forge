@@ -16,8 +16,35 @@
 print("PIZZAHUB LOADING...")
 
 --------------------------------------------------------------------------------
+-- LOADING SCREEN (from mainUi)
+--------------------------------------------------------------------------------
+
+local WindUI
+do
+    local ok, result = pcall(function()
+        return require("./mainUi")
+    end)
+    
+    if ok then
+        WindUI = result
+    else 
+        WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
+    end
+end
+
+local LoadingScreen = WindUI.LoadingScreen:Create()
+
+local function UpdateProgress(percent, statusText)
+    LoadingScreen:Update(percent, statusText)
+end
+
+UpdateProgress(0, "Starting...")
+
+--------------------------------------------------------------------------------
 -- [1] SERVICES
 --------------------------------------------------------------------------------
+
+UpdateProgress(5, "Loading Services...")
 
 local Services = {
     TweenService = game:GetService("TweenService"),
@@ -97,7 +124,7 @@ if Services.Humanoid then
     Services.Humanoid.Died:Connect(OnDeath)
 end
 
-print("PIZZAHUB LOADED SERVICES [15%]")
+UpdateProgress(15, "Loaded Services")
 
 --------------------------------------------------------------------------------
 -- [2] CONFIG
@@ -119,7 +146,7 @@ for key, value in pairs(Config) do
     getgenv()[key] = value
 end
 
-print("PIZZAHUB LOADED CONFIGURATION [25%]")
+UpdateProgress(20, "Loaded Configuration")
 
 --------------------------------------------------------------------------------
 -- [3] DATA
@@ -199,7 +226,7 @@ InitRocks()
 InitMods()
 InitTools()
 
-print("PIZZAHUB LOADED DATA [35%]")
+UpdateProgress(30, "Loaded Data")
 
 --------------------------------------------------------------------------------
 -- [4] LIBRARIES
@@ -295,7 +322,7 @@ function Lib.Tool.Weapon()
     ToolServiceRF.ToolActivated:InvokeServer("Weapon")
 end
 
-print("PIZZAHUB LOADED LIBRARIES [50%]")
+UpdateProgress(45, "Loaded Libraries")
 
 --------------------------------------------------------------------------------
 -- [5] FEATURES
@@ -531,30 +558,16 @@ function Features.AutoMod.Stop()
     print("AutoMod Stopped")
 end
 
-print("PIZZAHUB LOADED FEATURES [70%]")
+UpdateProgress(65, "Loaded Features")
 
 --------------------------------------------------------------------------------
 -- [6] UI
 -- Window, Tabs, and Controls
 --------------------------------------------------------------------------------
 
+UpdateProgress(75, "Loading UI...")
+
 local UI = {}
-
--- Load WindUI Library
-local WindUI
-do
-    local ok, result = pcall(function()
-        return require("./src/Init")
-    end)
-    
-    if ok then
-        WindUI = result
-    else 
-        WindUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/space-bar-pixel/the-forge/main/mainUi.luau"))()
-    end
-end
-
-print("PIZZAHUB LOADED UI LIBRARY [85%]")
 
 -- Create Window
 UI.Window = WindUI:CreateWindow({
@@ -575,7 +588,7 @@ UI.Window = WindUI:CreateWindow({
 
 UI.Window:SetToggleKey(Enum.KeyCode.H)
 
-print("PIZZAHUB LOADED WINDOW [90%]")
+UpdateProgress(80, "Creating Tabs...")
 
 --------------------------------------------------------------------------------
 -- [6.1] TABS
@@ -596,6 +609,8 @@ UI.Tabs.Teleport = UI.Window:Tab({
     Title = "Teleport",
     Icon = "map-pin",
 })
+
+UpdateProgress(85, "Creating Controls...")
 
 --------------------------------------------------------------------------------
 -- [6.2] CONTROLS
@@ -674,6 +689,9 @@ UI.Controls.AutoDodgeToggle = UI.Tabs.Main:Toggle({
         getgenv().AutoDodge = v
     end,
 })
+
+UpdateProgress(92, "Creating Teleport Buttons...")
+
 --------------------------------------------------------------------------------
 -- [6.3] TELEPORT LOCATIONS
 -- Add new teleport locations here easily
@@ -700,10 +718,10 @@ for _, loc in ipairs(TeleportLocations) do
     })
 end
 
-print("PIZZAHUB LOADED MENU [95%]")
+UpdateProgress(100, "Loaded")
 
 --------------------------------------------------------------------------------
 -- DONE
 --------------------------------------------------------------------------------
 
-print("PIZZAHUB LOADED... [100%]")
+print("PIZZAHUB LOADED...")
