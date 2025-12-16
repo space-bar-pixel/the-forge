@@ -97,7 +97,7 @@ if Services.Humanoid then
     Services.Humanoid.Died:Connect(OnDeath)
 end
 
-print("PIZZAHUB LOADED SERVICES")
+print("PIZZAHUB LOADED SERVICES [15%]")
 
 --------------------------------------------------------------------------------
 -- [2] CONFIG
@@ -119,7 +119,7 @@ for key, value in pairs(Config) do
     getgenv()[key] = value
 end
 
-print("PIZZAHUB LOADED CONFIGURATION")
+print("PIZZAHUB LOADED CONFIGURATION [25%]")
 
 --------------------------------------------------------------------------------
 -- [3] DATA
@@ -199,7 +199,7 @@ InitRocks()
 InitMods()
 InitTools()
 
-print("PIZZAHUB LOADED DATA")
+print("PIZZAHUB LOADED DATA [35%]")
 
 --------------------------------------------------------------------------------
 -- [4] LIBRARIES
@@ -295,7 +295,7 @@ function Lib.Tool.Weapon()
     ToolServiceRF.ToolActivated:InvokeServer("Weapon")
 end
 
-print("PIZZAHUB LOADED LIBRARIES")
+print("PIZZAHUB LOADED LIBRARIES [50%]")
 
 --------------------------------------------------------------------------------
 -- [5] FEATURES
@@ -531,7 +531,7 @@ function Features.AutoMod.Stop()
     print("AutoMod Stopped")
 end
 
-print("PIZZAHUB LOADED FEATURES")
+print("PIZZAHUB LOADED FEATURES [70%]")
 
 --------------------------------------------------------------------------------
 -- [6] UI
@@ -550,11 +550,11 @@ do
     if ok then
         WindUI = result
     else 
-        WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
+        WindUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/space-bar-pixel/the-forge/main/mainUi.luau"))()
     end
 end
 
-print("PIZZAHUB LOADED UI LIBRARY")
+print("PIZZAHUB LOADED UI LIBRARY [85%]")
 
 -- Create Window
 UI.Window = WindUI:CreateWindow({
@@ -575,7 +575,7 @@ UI.Window = WindUI:CreateWindow({
 
 UI.Window:SetToggleKey(Enum.KeyCode.H)
 
-print("PIZZAHUB LOADED WINDOW")
+print("PIZZAHUB LOADED WINDOW [90%]")
 
 --------------------------------------------------------------------------------
 -- [6.1] TABS
@@ -700,10 +700,10 @@ for _, loc in ipairs(TeleportLocations) do
     })
 end
 
-print("PIZZAHUB LOADED MENU")
+print("PIZZAHUB LOADED MENU [95%]")
 
 --------------------------------------------------------------------------------
 -- DONE
 --------------------------------------------------------------------------------
 
-print("PIZZAHUB LOADED...")
+print("PIZZAHUB LOADED... [100%]")
